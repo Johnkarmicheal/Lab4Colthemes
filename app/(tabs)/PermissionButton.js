@@ -3,12 +3,6 @@ import * as TaskManager from 'expo-task-manager';
 import { Button, StyleSheet, View, useColorScheme } from 'react-native';
 
 
-  const colorScheme = useColorScheme();
-
- const themeTextStyle = colorScheme === 'light' ? styles.lightThemeText : styles.darkThemeText;
-  const themeContainerStyle =
-    colorScheme === 'light' ? styles.lightContainer : styles.darkContainer;
-
 
 const LOCATION_TASK_NAME = 'background-location-task';
 
@@ -19,8 +13,8 @@ const requestPermissions = async () => {
     if (backgroundStatus === 'granted') {
       await Location.startLocationUpdatesAsync(LOCATION_TASK_NAME, {
         accuracy: Location.Accuracy.Balanced,
-          timeInterval: 5000,
-  deferredUpdatesInterval: 5000,
+          timeInterval: 2000,
+  deferredUpdatesInterval: 2000,
   foregroundService: {
     notificationTitle: "Location Active",
     notificationBody: "Monitoring your location in the background",
@@ -30,13 +24,19 @@ const requestPermissions = async () => {
   }
 };
 
-const locPermissionsButton = () => (
-  <View style={[styles.container, themeContainerStyle]}>
-    <Button onPress={requestPermissions} title="Enable background location" />
-  </View>
-);
+const locPermissionsButton = () => { // Changed ( to {
+  const colorScheme = useColorScheme();
 
+  const themeTextStyle = colorScheme === 'light' ? styles.lightThemeText : styles.darkThemeText;
+  const themeContainerStyle =
+    colorScheme === 'light' ? styles.lightContainer : styles.darkContainer;
 
+  return ( // Added explicit return
+    <View style={[styles.container, themeContainerStyle]}>
+      <Button onPress={requestPermissions} title="Enable background location" />
+    </View>
+  );
+}; 
 
 TaskManager.defineTask(LOCATION_TASK_NAME, ({ data, error }) => {
 alert("start task manger..");

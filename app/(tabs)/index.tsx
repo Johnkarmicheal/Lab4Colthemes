@@ -30,28 +30,32 @@ const handleGetLocation = async () => {
   }
 
   const loc = await Location.getCurrentPositionAsync({});
-  setLocation(loc.coords);
+    setLocation({
+    latitude: loc.coords.latitude,
+    longitude: loc.coords.longitude,
+    // Convert the raw timestamp (ms) to a readable string
+    date: new Date(loc.timestamp).toLocaleTimeString(), 
+  });
 };
 
    return (
     <View style={[styles.container, themeContainerStyle]}>
       <Text style={[styles.text, themeTextStyle]}>Color scheme: {colorScheme}</Text>
       <Text style={[styles.text, themeTextStyle]}> THIS APP HAS THEMES </Text>
-   <View style = {styles.header}>
+   <View style = {styles.container}>
 
-          <Link href="../locPermissionsButton" asChild>
-          <Pressable style={[styles.container, themeContainerStyle]}>
-  <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+          <Link href="/(tabs)/PermissionButton" asChild>
+          <Pressable style={[styles.container2, themeContainerStyle]}>
+  <View>
   <Text style={[styles.text, themeTextStyle]}>
     Location</Text>
     
   </View>
   </Pressable>
   </Link>
-
-      <Pressable onPress={handleGetLocation} style={styles.container}>
-        <Text style={[styles.text, themeTextStyle]}>
-          Get Current Location
+      <View style= {[styles.container2, themeContainerStyle]}>
+      <Pressable onPress={handleGetLocation} style={styles.container2}>
+        <Text style={[styles.text, themeTextStyle]}> Get Current Location
         </Text>
   </Pressable>
 
@@ -62,6 +66,7 @@ const handleGetLocation = async () => {
         </Text>
       )}
   </View>
+  </View>
       <StatusBar />
     </View>
   );
@@ -69,13 +74,28 @@ const handleGetLocation = async () => {
 
 
 const styles = StyleSheet.create({
-  container: {
-    
-    alignItems: 'center',
+    container: {
+      flex: 1,
+    flexDirection: 'column',
+    padding: 2.5, 
+    justifyContent: 'center',
+  },
+    container2: 
+    {
+      flex: 1,
+    flexDirection: 'column',
+    padding: 2.5, 
+   
+    justifyContent: 'flex-end',
+  },
+    row: {
+    flexDirection: 'row',
+    padding: 0,
     justifyContent: 'center',
   },
   text: {
-    fontSize: 20,
+   color: '#242c40',
+   fontSize: 30,
   },
   lightContainer: {
     backgroundColor: '#d0d0c0',
@@ -84,10 +104,29 @@ const styles = StyleSheet.create({
     backgroundColor: '#242c40',
   },
   lightThemeText: {
+      marginTop: 16,
+    paddingVertical: 8,
+    borderWidth: 4,
+    borderColor: '#242c40',
+    borderRadius: 6,
+    backgroundColor: '#ffffff',
     color: '#242c40',
+    textAlign: 'center',
+    fontSize: 30,
+    fontWeight: 'bold',
+
   },
   darkThemeText: {
     color: '#d0d0c0',
+       marginTop: 16,
+    paddingVertical: 0,
+    borderWidth: 4,
+    borderColor: '#d0d0c0',
+    borderRadius: 6,
+    backgroundColor: '#4c515f',
+    textAlign: 'center',
+    fontSize: 30,
+    fontWeight: 'bold',
   },
   header: {
     padding: 40,
@@ -100,5 +139,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     gap: 8,
   },
+  bottom: {
+  justifyContent: 'flex-end',
+}
   
 });
